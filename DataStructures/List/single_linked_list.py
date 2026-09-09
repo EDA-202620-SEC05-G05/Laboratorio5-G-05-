@@ -283,3 +283,11 @@ def to_py_list(my_list):
         result.append(current_node['info'])
         current_node = current_node['next']
     return result
+
+#Ordenamientos iterativos
+
+def default_sort_criteria(element1,element2):
+    """
+    Función de comparación por defecto
+    """
+    return  element1<element2
