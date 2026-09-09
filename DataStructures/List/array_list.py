@@ -189,3 +189,15 @@ def insertion_sort(my_list, sort_criteria):
             exchange(my_list,j,j-1)
             j-=1
     return my_list
+
+def selection_sort(my_list, sort_criteria):
+   """
+   Ordena la lista usando el algoritmo de ordenamiento por selección.
+   """
+   for i in range(my_list['size']):
+       min_index = i
+       for j in range(i + 1, my_list['size']):
+           if sort_criteria(my_list['elements'][j], my_list['elements'][min_index]):
+               min_index = j
+       exchange(my_list, i, min_index)
+   return my_list
