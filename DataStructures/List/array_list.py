@@ -190,6 +190,27 @@ def insertion_sort(my_list, sort_criteria):
             j-=1
     return my_list
 
+def insertion_sort_h(my_list, sort_criteria, h):
+    """
+    Ordena la lista usando el algortimo de ordenamiento inserccion con elemento h
+    """
+    for i in range(h, size(my_list)):
+        j = i
+        while j >= h and sort_criteria(j,j-h):
+            exchange(my_list,j,j-h)
+            j -= h
+    return my_list
+
+def shell_sort(my_list, sort_criteria):
+    """
+    Ordena la lista usando el algortimo de ordenamiento shell con elemento h
+    """
+    h = size(my_list) // 2
+    while h >= 1:
+        insertion_sort_h(my_list, sort_criteria, h)
+        h = h // 2
+    return my_list
+
 def selection_sort(my_list, sort_criteria):
    """
    Ordena la lista usando el algoritmo de ordenamiento por selección.
