@@ -171,8 +171,21 @@ def to_py_list(my_list):
     """
     return my_list['elements']
 
+#ordenamientos iterativos
+
 def default_sort_criteria(element_1, element_2):
     """
     Criterio de ordenamiento por defecto (a modo de ejemplo).
     """
     return element_1 < element_2
+
+def insertion_sort(my_list, sort_criteria):
+    """
+    Ordena la lista usando el algortimo de ordenamiento inserccion
+    """
+    for i in range(1, size(my_list)):
+        j = i
+        while j >= 1 and sort_criteria(j,j-1):
+            exchange(my_list,j,j-1)
+            j-=1
+    return my_list
