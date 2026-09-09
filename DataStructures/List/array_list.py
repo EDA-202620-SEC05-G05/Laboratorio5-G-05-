@@ -170,3 +170,9 @@ def to_py_list(my_list):
     Retorna los elementos de la lista en una lista nativa de Python.
     """
     return my_list['elements']
+
+def default_sort_criteria(element_1, element_2):
+    """
+    Criterio de ordenamiento por defecto (a modo de ejemplo).
+    """
+    return element_1 < element_2
