@@ -222,3 +222,39 @@ def selection_sort(my_list, sort_criteria):
                min_index = j
        exchange(my_list, i, min_index)
    return my_list
+
+def merge_sort(my_list, sort_criteria):
+    """
+    Ordena la lista usando el algoritmo de ordenamiento de merge sort.
+    """
+    if my_list['size'] <= 1:
+        return my_list
+
+    mid = my_list['size'] // 2
+    left_half = sub_list(my_list, 0, mid)
+    right_half = sub_list(my_list, mid, my_list['size'])
+
+    left_sorted = merge_sort(left_half, sort_criteria)
+    right_sorted = merge_sort(right_half, sort_criteria)
+
+    i = j = k = 0
+    while i < left_sorted['size'] and j < right_sorted['size']:
+        if sort_criteria(left_sorted['elements'][i], right_sorted['elements'][j]):
+            my_list['elements'][k] = left_sorted['elements'][i]
+            i += 1
+        else:
+            my_list['elements'][k] = right_sorted['elements'][j]
+            j += 1
+        k += 1
+
+    while i < left_sorted['size']:
+        my_list['elements'][k] = left_sorted['elements'][i]
+        i += 1
+        k += 1
+
+    while j < right_sorted['size']:
+        my_list['elements'][k] = right_sorted['elements'][j]
+        j += 1
+        k += 1
+
+    return my_list

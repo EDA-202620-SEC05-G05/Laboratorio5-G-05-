@@ -1,3 +1,6 @@
+from heapq import merge
+
+
 def new_list():
     """
     Crea una lista (single_linked_list) vacía.
@@ -360,3 +363,19 @@ def selection_sort(my_list, sort_criteria):
         exchange(nodes, i, min_index)
     return my_list
  
+ 
+def merge_sort(my_list, sort_criteria):
+    """
+    Ordena la lista usando el algoritmo de ordenamiento merge sort.
+    """
+    if size(my_list) <= 1:
+        return my_list
+
+    mid = size(my_list) // 2
+    left_half = sub_list(my_list, 0, mid)
+    right_half = sub_list(my_list, mid, size(my_list) - mid)
+
+    left_sorted = merge_sort(left_half, sort_criteria)
+    right_sorted = merge_sort(right_half, sort_criteria)
+
+    return merge(left_sorted, right_sorted, sort_criteria)
