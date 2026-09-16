@@ -284,6 +284,20 @@ def to_py_list(my_list):
         current_node = current_node['next']
     return result
 
+def get_node_array(my_list):
+    """
+    Recorre la lista enlazada UNA vez (O(n)) y devuelve un arreglo con las
+    referencias a cada nodo, en orden. Esto nos da acceso "tipo array" por
+    posición para poder aplicar los algoritmos clásicos sin degradar su
+    complejidad.
+    """
+    nodes = []
+    current = my_list['first']
+    while current is not None:
+        nodes.append(current)
+        current = current['next']
+    return nodes
+
 #Ordenamientos iterativos
 
 def default_sort_criteria(element1,element2):
@@ -291,3 +305,58 @@ def default_sort_criteria(element1,element2):
     Función de comparación por defecto
     """
     return  element1<element2
+
+def insertion_sort(my_list, sort_criteria):
+    """
+    Ordena la lista simplemente enlazada usando el algoritmo de
+    ordenamiento por inserción.
+    """
+    nodes = get_node_array(my_list)
+    for i in range(1, size(nodes)):
+        j = i
+        while j >= 1 and sort_criteria(nodes[j]['info'], nodes[j - 1]['info']):
+            exchange(nodes, j, j - 1)
+            j -= 1
+    return my_list
+ 
+ 
+def insertion_sort_h(my_list, sort_criteria, h):
+    """
+    Ordena la lista simplemente enlazada usando el algoritmo de
+    ordenamiento por inserción con salto h (usado por shell sort).
+    """
+    nodes = get_node_array(my_list)
+    for i in range(h, size(nodes)):
+        j = i
+        while j >= h and sort_criteria(nodes[j]['info'], nodes[j - h]['info']):
+            exchange(nodes, j, j - h)
+            j -= h
+    return my_list
+ 
+ 
+def shell_sort(my_list, sort_criteria):
+    """
+    Ordena la lista simplemente enlazada usando el algoritmo shell sort.
+    """
+    n = my_list['size']
+    h = n // 2
+    while h >= 1:
+        insertion_sort_h(my_list, sort_criteria, h)
+        h = h // 2
+    return my_list
+ 
+ 
+def selection_sort(my_list, sort_criteria):
+    """
+    Ordena la lista simplemente enlazada usando el algoritmo de
+    ordenamiento por selección.
+    """
+    nodes = get_node_array(my_list)
+    for i in range(size(nodes)):
+        min_index = i
+        for j in range(i + 1, size(nodes)):
+            if sort_criteria(nodes[j]['info'], nodes[min_index]['info']):
+                min_index = j
+        exchange(nodes, i, min_index)
+    return my_list
+ 
