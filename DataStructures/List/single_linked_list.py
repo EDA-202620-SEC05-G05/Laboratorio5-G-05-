@@ -302,23 +302,23 @@ def get_node_array(my_list):
     return nodes
 
 #Ordenamientos iterativos
-
+ 
 def default_sort_criteria(element1,element2):
     """
     Función de comparación por defecto
     """
     return  element1<element2
-
+ 
 def insertion_sort(my_list, sort_criteria):
     """
     Ordena la lista simplemente enlazada usando el algoritmo de
     ordenamiento por inserción.
     """
     nodes = get_node_array(my_list)
-    for i in range(1, size(nodes)):
+    for i in range(1, len(nodes)):
         j = i
         while j >= 1 and sort_criteria(nodes[j]['info'], nodes[j - 1]['info']):
-            exchange(nodes, j, j - 1)
+            nodes[j]['info'], nodes[j - 1]['info'] = nodes[j - 1]['info'], nodes[j]['info']
             j -= 1
     return my_list
  
@@ -329,10 +329,10 @@ def insertion_sort_h(my_list, sort_criteria, h):
     ordenamiento por inserción con salto h (usado por shell sort).
     """
     nodes = get_node_array(my_list)
-    for i in range(h, size(nodes)):
+    for i in range(h, len(nodes)):
         j = i
         while j >= h and sort_criteria(nodes[j]['info'], nodes[j - h]['info']):
-            exchange(nodes, j, j - h)
+            nodes[j]['info'], nodes[j - h]['info'] = nodes[j - h]['info'], nodes[j]['info']
             j -= h
     return my_list
  
@@ -355,14 +355,14 @@ def selection_sort(my_list, sort_criteria):
     ordenamiento por selección.
     """
     nodes = get_node_array(my_list)
-    for i in range(size(nodes)):
+    for i in range(len(nodes)):
         min_index = i
-        for j in range(i + 1, size(nodes)):
+        for j in range(i + 1, len(nodes)):
             if sort_criteria(nodes[j]['info'], nodes[min_index]['info']):
                 min_index = j
-        exchange(nodes, i, min_index)
+        nodes[i]['info'], nodes[min_index]['info'] = nodes[min_index]['info'], nodes[i]['info']
     return my_list
-
+ 
 #ordenamientos recursivos 
  
 def merge_sort(my_list, sort_criteria):
@@ -371,34 +371,32 @@ def merge_sort(my_list, sort_criteria):
     """
     if size(my_list) <= 1:
         return my_list
-
+ 
     mid = size(my_list) // 2
     left_half = sub_list(my_list, 0, mid)
     right_half = sub_list(my_list, mid, size(my_list) - mid)
-
+ 
     left_sorted = merge_sort(left_half, sort_criteria)
     right_sorted = merge_sort(right_half, sort_criteria)
-
+ 
     return merge(left_sorted, right_sorted, sort_criteria)
-
+ 
+ 
 def partition(nodes, low, high, sort_criteria):
     """
     Particiona el arreglo de nodos nodes[low..high] usando el nodo en
-    'high' como pivote, comparando por su campo 'info'.
+    'high' como pivote (esquema de Lomuto), comparando por su campo 'info'.
     Retorna la posición final del pivote dentro del arreglo de nodos.
-    Esto se logra con la funcion que nos da un arreglo de nodos para poder 
-    acceder a las posiciones como un array list y asi no empeorar la complejidad
-    al final se modifica es la info y no se reordenan los punteros next
     """
     pivot = nodes[high]['info']
-    i = low - 1  
+    i = low - 1  # frontera de los nodos ya acomodados a la izquierda
  
     for j in range(low, high):
         if sort_criteria(nodes[j]['info'], pivot):
             i += 1
-            exchange(nodes, i, j)
+            nodes[i]['info'], nodes[j]['info'] = nodes[j]['info'], nodes[i]['info']
  
-    exchange(nodes, i + 1, high)  # el pivote queda en su posición final
+    nodes[i + 1]['info'], nodes[high]['info'] = nodes[high]['info'], nodes[i + 1]['info']  # el pivote queda en su posición final
     return i + 1
  
  
@@ -419,5 +417,5 @@ def quick_sort(my_list, sort_criteria):
     ordenamiento quick sort.
     """
     nodes = get_node_array(my_list)
-    quick_sort_rec(nodes, 0, size(nodes) - 1, sort_criteria)
+    quick_sort_rec(nodes, 0, len(nodes) - 1, sort_criteria)
     return my_list

@@ -32,6 +32,8 @@ from DataStructures.List import single_linked_list as lt
 
 data_structure = None
 
+default_limit = 1000
+sys.setrecursionlimit(default_limit*10)
 """
 La vista se encarga de la interacción con el usuario
 Presenta el menú de opciones y por cada selección
