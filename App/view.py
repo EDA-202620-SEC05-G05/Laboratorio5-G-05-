@@ -24,14 +24,14 @@
  * Dario Correal
  * Lina Ojeda
  """
-
+ 
 import sys
 import App.logic as logic
 from DataStructures.List import array_list as al
 from DataStructures.List import single_linked_list as lt
-
+ 
 data_structure = None
-
+ 
 default_limit = 1000
 sys.setrecursionlimit(default_limit*10)
 """
@@ -40,22 +40,22 @@ Presenta el menú de opciones y por cada selección
 se hace la solicitud al controlador para ejecutar la
 operación solicitada
 """
-
-
+ 
+ 
 def new_logic(data_structure):
     """
     Se crea una instancia del controlador
     """
     control = logic.new_logic(data_structure)
     return control
-
-
+ 
+ 
 def print_menu():
     """
     Menu de usuario
     """
     print("Bienvenido")
-    #TODO: agregar opción 0 para escoger el tipo de estructura de datos y opción 5 para seleccionar el algoritmo de ordenamiento
+    print("0- Seleccionar el tipo de estructura de datos")
     print("1- Cargar información en el catálogo")
     print("2- Consultar la información de un libro")
     print("3- Consultar los libros de un autor")
@@ -64,7 +64,7 @@ def print_menu():
     print("6- Seleccionar muestra de libros")
     print("7- Ordenar los libros por rating") #para ejecutar esta opción debe haber ejecutado previamente la opción 5 y 6
     print("8- Salir")
-
+ 
 def select_data_structure():
     """
     Vista: Captura la selección del usuario y retorna
@@ -91,14 +91,14 @@ def select_data_structure():
         else:
             print("Opción no válida en el submenú")
             sub_input = ""
-
+ 
 def load_data(control):
     """
     Solicita al controlador que cargue los datos en el modelo
     """
     books, authors, tags, book_tags= logic.load_data(control)
     return books, authors, tags, book_tags
-
+ 
 def print_author_data(author):
     """
     Recorre la lista de libros de un autor, imprimiendo
@@ -125,13 +125,13 @@ def print_book_info(book):
                     ' Work text reviews count : ' + book['work_text_reviews_count'])
     else:
         print('No se encontraron libros')
-
-
-
+ 
+ 
+ 
 def print_sort_results(sort_books, sample=3):
     """
     Imprime la información de una muestra de libros ordenados.
-
+ 
     Args:
     sort_books (data_structure): La estructura de datos que contiene los libros ordenados.
     sample (int): El número de libros a imprimir. Por defecto, 3.
@@ -141,32 +141,35 @@ def print_sort_results(sort_books, sample=3):
     """
     # Recorrer los elementos de la estructura de datos 'sort_books'.
     sorted_books=  sort_books[0]
-
+ 
     for book_pos in range(0, data_structure.size(sorted_books)):
         # Si todavía hay libros que imprimir en la muestra.
         if sample > 0:
             # Obtener el libro en la posición actual.
             book = data_structure.get_element(sorted_books, book_pos)
-            # TODO: Completar la lógica para imprimir la información del libro.
+            # Imprimir la información del libro.
+            print_book_info(book)
             # Disminuir el contador de la muestra.
             sample -= 1
-
+ 
 # variables utiles para el programa
-
+ 
 data_str="""Seleccione el algoritmo de estructura de datos:
 1. Array_list
 2. Linked_list
 """
-
+ 
 algo_str = """Seleccione el algoritmo de ordenamiento recursivo:
 1. Selection Sort
 2. insertion Sort
 3. shell Sort
+4. Merge Sort
+5. Quick Sort
 """
                  
 exit_opt_lt = ("s", "S", "1", True, "true", "True", "si", "Si", "SI")
-
-
+ 
+ 
 # main del ejercicio
 def main():
     """
@@ -177,7 +180,7 @@ def main():
     control = None
     # tamaño de la muestra para pruebas
     size = 0.0
-
+ 
     # ciclo del menu
     while working:
         print_menu()
@@ -193,18 +196,18 @@ def main():
         elif int(inputs[0]) == 1:
             print("Cargando información de los archivos ....")
             bk, at, tg, bktg = load_data(control)
-            #TODO: imprimir la cantidad de libros, autores, géneros y asociaciones de géneros a libros cargados
-
+            print(f"Se cargaron {bk} libros, {at} autores, {tg} géneros y {bktg} asociaciones género-libro")
+ 
         elif int(inputs[0]) == 2:
             number = input("Ingrese el id del libro que desea buscar: ")
             book = logic.get_book_info_by_book_id(control, int(number))
             print_book_info(book)
-
+ 
         elif int(inputs[0]) == 3:
             authorname = input("Nombre del autor a buscar: ")
             author = logic.get_books_by_author(control, authorname)
             print_author_data(author)
-
+ 
         elif int(inputs[0]) == 4:
             label = input("Etiqueta a buscar: ")
             book_count = logic.count_books_by_tag(control, label)
@@ -220,13 +223,13 @@ def main():
             size = input("Indique tamaño de la muestra: ")
             size = int(size)
             logic.set_book_sublist(control, size)
-
+ 
         elif int(inputs[0]) == 7:
             print("Ordenando los libros por rating ...")
             result = logic.sort_books(control)
-            #TODO:imprimir el resultado del ordenamiento 
+            print_sort_results(result)
             print("Tiempo de ejecución:", f"{result[1]:.3f}", "[ms]")
-
+ 
         elif int(inputs[0]) == 8:
             # confirmar salida del programa
             end_str = "¿Desea salir del programa? (s/n): "
@@ -235,7 +238,7 @@ def main():
             if opt_usr in exit_opt_lt:
                 working = False
                 print("\nGracias por utilizar el programa.")
-
+ 
         else:
             continue
     sys.exit(0)
