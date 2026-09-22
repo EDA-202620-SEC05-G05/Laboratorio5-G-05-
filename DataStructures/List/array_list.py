@@ -223,6 +223,8 @@ def selection_sort(my_list, sort_criteria):
        exchange(my_list, i, min_index)
    return my_list
 
+#ordenamientos recursivos
+
 def merge_sort(my_list, sort_criteria):
     """
     Ordena la lista usando el algoritmo de ordenamiento de merge sort.
@@ -257,4 +259,41 @@ def merge_sort(my_list, sort_criteria):
         j += 1
         k += 1
 
+    return my_list
+
+def partition(my_list, low, high, sort_criteria):
+    """
+    Particiona el sublista my_list[low..high] usando el último elemento (high)
+    como pivote 
+    Todo lo que sea "menor" (según sort_criteria) que el pivote queda a su
+    izquierda, y lo demás a su derecha. Retorna la posición final del pivote.
+    """
+    pivot = my_list['elements'][high]
+    i = low - 1  
+ 
+    for j in range(low, high):
+        if sort_criteria(my_list['elements'][j], pivot):
+            i += 1
+            exchange(my_list, i, j)
+ 
+    exchange(my_list, i + 1, high)  # el pivote queda en su posición final
+    return i + 1
+ 
+ 
+def quick_sort_rec(my_list, low, high, sort_criteria):
+    """
+    Ordena recursivamente el sublista my_list[low..high].
+    """
+    if low < high:
+        pivot_index = partition(my_list, low, high, sort_criteria)
+        quick_sort_rec(my_list, low, pivot_index - 1, sort_criteria)
+        quick_sort_rec(my_list, pivot_index + 1, high, sort_criteria)
+    return my_list
+ 
+ 
+def quick_sort(my_list, sort_criteria):
+    """
+    Ordena la lista usando el algoritmo de ordenamiento quick sort.
+    """
+    quick_sort_rec(my_list, 0, my_list['size'] - 1, sort_criteria)
     return my_list

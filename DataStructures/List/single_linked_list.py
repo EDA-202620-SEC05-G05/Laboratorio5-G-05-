@@ -362,7 +362,8 @@ def selection_sort(my_list, sort_criteria):
                 min_index = j
         exchange(nodes, i, min_index)
     return my_list
- 
+
+#ordenamientos recursivos 
  
 def merge_sort(my_list, sort_criteria):
     """
@@ -379,3 +380,44 @@ def merge_sort(my_list, sort_criteria):
     right_sorted = merge_sort(right_half, sort_criteria)
 
     return merge(left_sorted, right_sorted, sort_criteria)
+
+def partition(nodes, low, high, sort_criteria):
+    """
+    Particiona el arreglo de nodos nodes[low..high] usando el nodo en
+    'high' como pivote, comparando por su campo 'info'.
+    Retorna la posición final del pivote dentro del arreglo de nodos.
+    Esto se logra con la funcion que nos da un arreglo de nodos para poder 
+    acceder a las posiciones como un array list y asi no empeorar la complejidad
+    al final se modifica es la info y no se reordenan los punteros next
+    """
+    pivot = nodes[high]['info']
+    i = low - 1  
+ 
+    for j in range(low, high):
+        if sort_criteria(nodes[j]['info'], pivot):
+            i += 1
+            exchange(nodes, i, j)
+ 
+    exchange(nodes, i + 1, high)  # el pivote queda en su posición final
+    return i + 1
+ 
+ 
+def quick_sort_rec(nodes, low, high, sort_criteria):
+    """
+    Ordena recursivamente el arreglo de nodos entre las posiciones
+    low y high (ambas inclusive).
+    """
+    if low < high:
+        pivot_index = partition(nodes, low, high, sort_criteria)
+        quick_sort_rec(nodes, low, pivot_index - 1, sort_criteria)
+        quick_sort_rec(nodes, pivot_index + 1, high, sort_criteria)
+ 
+ 
+def quick_sort(my_list, sort_criteria):
+    """
+    Ordena la lista simplemente enlazada usando el algoritmo de
+    ordenamiento quick sort.
+    """
+    nodes = get_node_array(my_list)
+    quick_sort_rec(nodes, 0, size(nodes) - 1, sort_criteria)
+    return my_list
