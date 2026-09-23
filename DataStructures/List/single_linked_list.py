@@ -1,4 +1,4 @@
-from heapq import merge
+
 
 
 def new_list():
@@ -365,22 +365,42 @@ def selection_sort(my_list, sort_criteria):
  
 #ordenamientos recursivos 
  
+def merge(left, right, sort_criteria):
+    result = new_list()
+    left_node = left['first']
+    right_node = right['first']
+
+    while left_node is not None and right_node is not None:
+        if sort_criteria(left_node['info'], right_node['info']):
+            add_last(result, left_node['info'])
+            left_node = left_node['next']
+        else:
+            add_last(result, right_node['info'])
+            right_node = right_node['next']
+
+    while left_node is not None:
+        add_last(result, left_node['info'])
+        left_node = left_node['next']
+
+    while right_node is not None:
+        add_last(result, right_node['info'])
+        right_node = right_node['next']
+
+    return result
+
+
 def merge_sort(my_list, sort_criteria):
-    """
-    Ordena la lista usando el algoritmo de ordenamiento merge sort.
-    """
     if size(my_list) <= 1:
         return my_list
- 
+
     mid = size(my_list) // 2
     left_half = sub_list(my_list, 0, mid)
     right_half = sub_list(my_list, mid, size(my_list) - mid)
- 
+
     left_sorted = merge_sort(left_half, sort_criteria)
     right_sorted = merge_sort(right_half, sort_criteria)
- 
+
     return merge(left_sorted, right_sorted, sort_criteria)
- 
  
 def partition(nodes, low, high, sort_criteria):
     """

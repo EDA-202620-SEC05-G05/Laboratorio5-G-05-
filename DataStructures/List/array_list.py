@@ -180,24 +180,26 @@ def default_sort_criteria(element_1, element_2):
     return element_1 < element_2
 
 def insertion_sort(my_list, sort_criteria):
-    """
-    Ordena la lista usando el algortimo de ordenamiento inserccion
-    """
-    for i in range(1, size(my_list)):
+    for i in range(1, my_list['size']):
         j = i
-        while j >= 1 and sort_criteria(j,j-1):
-            exchange(my_list,j,j-1)
-            j-=1
+        elem_j = my_list['elements'][j]
+        elem_prev = my_list['elements'][j - 1]
+        while j >= 1 and sort_criteria(elem_j, elem_prev):
+            exchange(my_list, j, j - 1)
+            j -= 1
+            if j >= 1:
+                elem_j = my_list['elements'][j]
+                elem_prev = my_list['elements'][j - 1]
     return my_list
 
 def insertion_sort_h(my_list, sort_criteria, h):
     """
-    Ordena la lista usando el algortimo de ordenamiento inserccion con elemento h
+    Ordena la lista usando el algoritmo de ordenamiento insercion con elemento h
     """
     for i in range(h, size(my_list)):
         j = i
-        while j >= h and sort_criteria(j,j-h):
-            exchange(my_list,j,j-h)
+        while j >= h and sort_criteria(get_element(my_list, j), get_element(my_list, j - h)):
+            exchange(my_list, j, j - h)
             j -= h
     return my_list
 

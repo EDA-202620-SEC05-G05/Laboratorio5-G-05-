@@ -230,7 +230,7 @@ def get_books_by_author(catalog, author_name):
     """
     pos_author = pos_author = data_structure.is_present(
         catalog['authors'], author_name, compare_authors)
-    if pos_author > 0:
+    if pos_author >= 0:
         author = data_structure.get_element(catalog['authors'], pos_author)
         return author
     return None
@@ -395,7 +395,7 @@ def add_book_author(catalog, author_name, book):
     authors = catalog['authors']
     pos_author = data_structure.is_present(
         authors, author_name, compare_authors)
-    if pos_author > 0:
+    if pos_author >= 0:
         author = data_structure.get_element(authors, pos_author)
     else:
         author = new_author(author_name)

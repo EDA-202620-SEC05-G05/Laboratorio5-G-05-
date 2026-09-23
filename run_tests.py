@@ -1,24 +1,13 @@
+
 import os
+import sys
+import subprocess
 
 
 def execute_pytest_test(test_name):
-    commands = [
-        f'pytest -v -k "{test_name}"',
-        f'py -m pytest -v -k "{test_name}"',
-        f'python -m pytest -v -k "{test_name}"',
-        f'python3 -m pytest -v -k "{test_name}"'
-    ]
-
-    index = 0
-    executed_successfully = False
-
-    while index < len(commands) and not executed_successfully:
-        cmd = commands[index]
-        print(f"Trying: {cmd}")
-        return_code = os.system(cmd)
-        executed_successfully = (return_code == 0)
-        index += 1
-
+    cmd = [sys.executable, "-m", "pytest", "-v", "-k", test_name]
+    print(f"Executing: {' '.join(cmd)}")
+    subprocess.run(cmd)
 
 def print_test_options():
     print(" Bienvenido a las pruebas de EDA ".center(80, "="))
